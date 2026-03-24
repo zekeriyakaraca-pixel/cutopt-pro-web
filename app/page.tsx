@@ -133,7 +133,12 @@ const translations = {
     featTitle2: "Maliyet Raporu", featDesc2: "Kullanılan profil miktarını ve fire oranlarını anlık olarak Excel formatında sunar.",
     featTitle3: "Akıllı Stok Yönetimi", featDesc3: "Elinizdeki artık parçaları sisteme kaydedin; yazılım önce bu parçaları kullansın.",
     uiTitle: "Yazılım Arayüzü & Operatör Paneli", uiDesc: "Hız odaklı profesyonel ve modern arayüz tasarımlarımız.",
-    ctaTitle: "Maliyetlerinizi Bugün Düşürün", ctaBtn: "Demo Randevusu Al", footer: "Yerel Güç, Akıllı Çözümler."
+    ctaTitle: "Maliyetlerinizi Bugün Düşürün", ctaBtn: "Demo Randevusu Al", footer: "Yerel Güç, Akıllı Çözümler.",
+    modalTitle: "Demo Talep Formu", namePlaceholder: "Ad Soyad", emailPlaceholder: "E-posta",
+    companyPlaceholder: "Şirket Adı", phonePlaceholder: "Telefon (isteğe bağlı)",
+    submitBtn: "Gönder", submitting: "Gönderiliyor...",
+    successMsg: "Talebiniz alındı! En kısa sürede iletişime geçeceğiz.",
+    errorMsg: "Bir hata oluştu. Lütfen tekrar deneyin."
   },
   EN: {
     nav1: "Software", nav2: "Interface", demoBtn: "Free Demo",
@@ -146,7 +151,12 @@ const translations = {
     featTitle2: "Cost Reporting", featDesc2: "Detailed usage and waste rates in Excel format.",
     featTitle3: "Smart Stock", featDesc3: "Re-use scrap pieces automatically in new plans.",
     uiTitle: "Software Interface & Operator Panel", uiDesc: "Our speed-oriented professional and modern interface designs.",
-    ctaTitle: "Reduce Costs Today", ctaBtn: "Schedule Demo", footer: "Smart Solutions."
+    ctaTitle: "Reduce Costs Today", ctaBtn: "Schedule Demo", footer: "Smart Solutions.",
+    modalTitle: "Demo Request Form", namePlaceholder: "Full Name", emailPlaceholder: "Email",
+    companyPlaceholder: "Company Name", phonePlaceholder: "Phone (optional)",
+    submitBtn: "Submit", submitting: "Sending...",
+    successMsg: "Request received! We'll contact you soon.",
+    errorMsg: "An error occurred. Please try again."
   },
   DE: {
     nav1: "Software", nav2: "Interface", demoBtn: "Demo",
@@ -159,7 +169,12 @@ const translations = {
     featTitle2: "Kostenberichte", featDesc2: "Detaillierte Profile ve Abfallraten in Excel.",
     featTitle3: "Lagerverwaltung", featDesc3: "Reststücke automatisch nutzen.",
     uiTitle: "Software-Interface & Bedienerpanel", uiDesc: "Unsere geschwindigkeitsorientierten professionellen und modernen Interface-Designs.",
-    ctaTitle: "Kosten senken", ctaBtn: "Demo buchen", footer: "Smarte Lösungen."
+    ctaTitle: "Kosten senken", ctaBtn: "Demo buchen", footer: "Smarte Lösungen.",
+    modalTitle: "Demo anfragen", namePlaceholder: "Vollständiger Name", emailPlaceholder: "E-Mail",
+    companyPlaceholder: "Firmenname", phonePlaceholder: "Telefon (optional)",
+    submitBtn: "Senden", submitting: "Wird gesendet...",
+    successMsg: "Anfrage erhalten! Wir melden uns bald.",
+    errorMsg: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
   }
 };
 
@@ -168,11 +183,82 @@ type Language = "TR" | "EN" | "DE";
 export default function FinalLandingPage() {
   const [lang, setLang] = useState<Language>("TR");
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", company: "", phone: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const t = translations[lang];
+
+  const openModal = () => { setSubmitStatus("idle"); setForm({ name: "", email: "", company: "", phone: "" }); setIsModalOpen(true); };
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/demo-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
+      setSubmitStatus("success");
+    } catch {
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen selection:bg-blue-500/30 overflow-x-hidden relative">
-      
+
+      {/* Demo Request Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+            onClick={closeModal}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-[#161B2C] border border-white/10 rounded-[28px] p-8 w-full max-w-md shadow-2xl"
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-black text-white uppercase italic">{t.modalTitle}</h2>
+                <button onClick={closeModal} className="text-slate-400 hover:text-white transition-colors"><X size={20} /></button>
+              </div>
+              {submitStatus === "success" ? (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check size={32} className="text-green-400" />
+                  </div>
+                  <p className="text-green-400 font-semibold">{t.successMsg}</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                  <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder={t.namePlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors" />
+                  <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    placeholder={t.emailPlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors" />
+                  <input required value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })}
+                    placeholder={t.companyPlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors" />
+                  <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    placeholder={t.phonePlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors" />
+                  {submitStatus === "error" && <p className="text-red-400 text-sm">{t.errorMsg}</p>}
+                  <button type="submit" disabled={isSubmitting}
+                    className="bg-blue-600 text-white py-3 rounded-xl font-bold text-sm hover:bg-blue-500 transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-2">
+                    {isSubmitting ? t.submitting : t.submitBtn} {!isSubmitting && <ArrowRight size={16} />}
+                  </button>
+                </form>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Soft Top Glow behind everything */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[800px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-[#0B0F19]/0 to-transparent pointer-events-none z-[-1]" />
 
@@ -204,7 +290,7 @@ export default function FinalLandingPage() {
                     )}
                 </AnimatePresence>
             </div>
-            <button className="bg-blue-600 text-white py-2.5 px-6 rounded-full text-xs font-bold hover:bg-blue-700 shadow-lg shadow-blue-500/20 uppercase transition-all">
+            <button onClick={openModal} className="bg-blue-600 text-white py-2.5 px-6 rounded-full text-xs font-bold hover:bg-blue-700 shadow-lg shadow-blue-500/20 uppercase transition-all">
               {t.demoBtn}
             </button>
           </div>
@@ -221,7 +307,7 @@ export default function FinalLandingPage() {
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-500 to-orange-500">{t.heroTitle2}</span>
           </h1>
           <p className="text-xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed">{t.heroDesc}</p>
-          <button className="bg-blue-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-blue-500 shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 mx-auto transition-all hover:scale-105 hover:shadow-blue-500/40 border border-blue-400/20">
+          <button onClick={openModal} className="bg-blue-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-blue-500 shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 mx-auto transition-all hover:scale-105 hover:shadow-blue-500/40 border border-blue-400/20">
             {t.heroCTA1} <ArrowRight size={20}/>
           </button>
         </motion.div>
@@ -281,7 +367,7 @@ export default function FinalLandingPage() {
         <div className="max-w-5xl mx-auto bg-gradient-to-br from-blue-600 via-indigo-600 to-indigo-900 rounded-[40px] p-16 md:p-24 shadow-[0_0_80px_rgba(79,70,229,0.2)] relative overflow-hidden border border-white/10">
             <div className="absolute top-0 right-0 p-10 opacity-10"><Settings size={200} className="animate-spin-slow text-white" /></div>
             <h2 className="text-4xl md:text-6xl font-black text-white mb-10 relative z-10 italic uppercase tracking-tight filter drop-shadow-md">{t.ctaTitle}</h2>
-            <button className="bg-white text-blue-700 px-12 py-5 rounded-full font-bold text-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all relative z-10 hover:scale-105 hover:bg-slate-50">{t.ctaBtn}</button>
+            <button onClick={openModal} className="bg-white text-blue-700 px-12 py-5 rounded-full font-bold text-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all relative z-10 hover:scale-105 hover:bg-slate-50">{t.ctaBtn}</button>
         </div>
       </motion.section>
 
