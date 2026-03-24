@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
  
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://cutopt-pro-web.vercel.app' // Verilen gerçek domain ile güncellenmeli
+  const baseUrl = 'https://cutopro.com'
   
   return [
     {
