@@ -210,8 +210,26 @@ export default function FinalLandingPage() {
     }
   };
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CutOpt PRO",
+    "operatingSystem": "Windows",
+    "applicationCategory": "BusinessApplication",
+    "description": "Alüminyum ve PVC üretiminde firesiz kesim optimizasyon yazılımı.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "TRY"
+    }
+  };
+
   return (
     <div className="min-h-screen selection:bg-blue-500/30 overflow-x-hidden relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       {/* Demo Request Modal */}
       <AnimatePresence>
@@ -340,10 +358,16 @@ export default function FinalLandingPage() {
                initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
                className="rounded-[32px] overflow-hidden bg-white/[0.02] border border-white/5 p-3 md:p-6 transition-all duration-500 hover:border-blue-500/40 hover:glow-lg shadow-2xl relative group"
             >
-              <ImageCarousel images={["/arayuz1.png", "/arayuz2.png", "/arayuz3.png", "/arayuz4.png", "/arayuz5.png"]} />
+              <ImageCarousel images={[
+                { src: "/arayuz1.png", alt: "CutOpt PRO Ana Ekran" },
+                { src: "/arayuz2.png", alt: "Kesim Listesi Yönetimi" },
+                { src: "/arayuz3.png", alt: "Optimizasyon Sonuçları" },
+                { src: "/arayuz4.png", alt: "Fire Raporlama" },
+                { src: "/arayuz5.png", alt: "Stok Takibi" }
+              ]} />
               
               <div className="mt-8 text-center px-4 pb-4">
-                <h4 className="font-black text-2xl md:text-3xl uppercase italic mb-3 tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-orange-400 drop-shadow-lg">Üstün Yazılım Mimarisi</h4>
+                <h3 className="font-black text-2xl md:text-3xl uppercase italic mb-3 tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-orange-400 drop-shadow-lg">Üstün Yazılım Mimarisi</h3>
                 <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">Tüm üretim ihtiyaçlarınızı tek ekrandan, karmaşaya yer bırakmadan yönetin. Yüksek detaylı stok takibi, fire oranları ve görsel kesim haritaları parmaklarınızın ucunda.</p>
               </div>
             </motion.div>
@@ -404,7 +428,7 @@ function Stat({ value, label, suffix = "", isText = false }: { value: any, label
     );
 }
 
-function ImageCarousel({ images }: { images: string[] }) {
+function ImageCarousel({ images }: { images: { src: string, alt: string }[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % images.length);
@@ -420,15 +444,16 @@ function ImageCarousel({ images }: { images: string[] }) {
       <AnimatePresence mode="popLayout">
         <motion.img
           key={currentIndex}
-          src={images[currentIndex]}
+          src={images[currentIndex].src}
+          alt={images[currentIndex].alt}
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -100 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
           className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
           onError={(e) => {
-             // Fallback to random pattern or placeholder if image not uploaded yet
-             (e.target as HTMLImageElement).src = `https://images.unsplash.com/photo-1551288049-bbdaef866d75?q=80&w=1200&sig=${currentIndex}`;
+              // Fallback to random pattern or placeholder if image not uploaded yet
+              (e.target as HTMLImageElement).src = `https://images.unsplash.com/photo-1551288049-bbdaef866d75?q=80&w=1200&sig=${currentIndex}`;
           }}
         />
       </AnimatePresence>
