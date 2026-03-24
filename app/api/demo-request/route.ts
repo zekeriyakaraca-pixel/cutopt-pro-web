@@ -8,8 +8,20 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { name, email, company, phone } = body;
 
+  // Basic Validation
   if (!name || !email || !company) {
     return NextResponse.json({ error: "Eksik alan" }, { status: 400 });
+  }
+
+  // Email format validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return NextResponse.json({ error: "Geçersiz e-posta formatı" }, { status: 400 });
+  }
+
+  // Length constraints
+  if (name.length > 100 || email.length > 100 || company.length > 100 || (phone && phone.length > 50)) {
+    return NextResponse.json({ error: "Çok uzun veri girişi" }, { status: 400 });
   }
 
   try {
