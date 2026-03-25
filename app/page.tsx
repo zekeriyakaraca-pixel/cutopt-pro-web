@@ -7,6 +7,7 @@ import {
   Menu, X, ArrowRight, Play, Settings, ChevronLeft, ChevronRight,
   Monitor, BarChart, Zap, Laptop, Database, Globe, Check, Camera, Layers
 } from "lucide-react";
+import { Turnstile } from '@marsidev/react-turnstile';
 
 // --- 1. SHADER ANIMATION (Marka Renklerine Özel) ---
 const ShaderAnimation = () => {
@@ -188,20 +189,27 @@ export default function FinalLandingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
   const t = translations[lang];
 
-  const openModal = () => { setSubmitStatus("idle"); setErrorMessage(""); setForm({ name: "", email: "", company: "", phone: "" }); setIsModalOpen(true); };
+  const openModal = () => { setSubmitStatus("idle"); setErrorMessage(""); setForm({ name: "", email: "", company: "", phone: "" }); setTurnstileToken(""); setIsModalOpen(true); };
   const closeModal = () => setIsModalOpen(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setErrorMessage("");
+    if (!turnstileToken) {
+      setSubmitStatus("error");
+      setErrorMessage("Lütfen robot olmadığınızı doğrulayın.");
+      setIsSubmitting(false);
+      return;
+    }
     try {
       const res = await fetch("/api/demo-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, token: turnstileToken }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -271,6 +279,14 @@ export default function FinalLandingPage() {
                     placeholder={t.companyPlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors" />
                   <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     placeholder={t.phonePlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors" />
+
+                  <div className="flex justify-center my-2">
+                    <Turnstile
+                      siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}
+                      onSuccess={(token) => setTurnstileToken(token)}
+                    />
+                  </div>
+
                   {submitStatus === "error" && <p className="text-red-400 text-sm">{errorMessage || t.errorMsg}</p>}
                   <button type="submit" disabled={isSubmitting}
                     className="bg-blue-600 text-white py-3 rounded-xl font-bold text-sm hover:bg-blue-500 transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-2">
