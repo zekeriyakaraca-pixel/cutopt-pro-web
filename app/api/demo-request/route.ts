@@ -18,8 +18,8 @@ const RATE_LIMIT_MAX_REQUESTS = 3; // 1 dakikada en fazla 3 istek
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 dakika
 
 export async function POST(req: NextRequest) {
-  // IP adresini al (Bulut servislerde req.ip, normal sunucularda x-forwarded-for kullanılır)
-  const ip = req.ip || req.headers.get("x-forwarded-for") || "unknown-ip";
+  // IP adresini al
+  const ip = req.headers.get("x-forwarded-for") || "unknown-ip";
   const currentTime = Date.now();
 
   // Rate limit kontrolü
