@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { motion, AnimatePresence, useMotionValue, animate } from "framer-motion";
-import { 
+import {
   Menu, X, ArrowRight, Play, Settings, ChevronLeft, ChevronRight,
   Monitor, BarChart, Zap, Laptop, Database, Globe, Check, Camera, Layers
 } from "lucide-react";
@@ -42,8 +42,8 @@ const ShaderAnimation = () => {
     camera.position.z = 1;
     const scene = new THREE.Scene();
     const geometry = new THREE.PlaneGeometry(2, 2);
-    const uniforms = { 
-      time: { value: 1.0 }, 
+    const uniforms = {
+      time: { value: 1.0 },
       resolution: { value: new THREE.Vector2() },
       mouse: { value: new THREE.Vector2(0.5, 0.5) }
     };
@@ -90,8 +90,8 @@ const AnimatedNumber = ({ value, suffix = "" }: { value: number, suffix?: string
   const [display, setDisplay] = useState(0); // Saf sayı saklamak için state
 
   useEffect(() => {
-    const controls = animate(count, value, { 
-      duration: 2, 
+    const controls = animate(count, value, {
+      duration: 2,
       ease: "easeOut",
       onUpdate: (latest) => {
         // Nesneyi değil, içindeki güncel sayısal değeri state'e yazıyoruz
@@ -187,24 +187,30 @@ export default function FinalLandingPage() {
   const [form, setForm] = useState({ name: "", email: "", company: "", phone: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
   const t = translations[lang];
 
-  const openModal = () => { setSubmitStatus("idle"); setForm({ name: "", email: "", company: "", phone: "" }); setIsModalOpen(true); };
+  const openModal = () => { setSubmitStatus("idle"); setErrorMessage(""); setForm({ name: "", email: "", company: "", phone: "" }); setIsModalOpen(true); };
   const closeModal = () => setIsModalOpen(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage("");
     try {
       const res = await fetch("/api/demo-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Bilinmeyen bir hata oluştu.");
+      }
       setSubmitStatus("success");
-    } catch {
+    } catch (err: any) {
       setSubmitStatus("error");
+      setErrorMessage(err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -265,7 +271,7 @@ export default function FinalLandingPage() {
                     placeholder={t.companyPlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors" />
                   <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     placeholder={t.phonePlaceholder} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors" />
-                  {submitStatus === "error" && <p className="text-red-400 text-sm">{t.errorMsg}</p>}
+                  {submitStatus === "error" && <p className="text-red-400 text-sm">{errorMessage || t.errorMsg}</p>}
                   <button type="submit" disabled={isSubmitting}
                     className="bg-blue-600 text-white py-3 rounded-xl font-bold text-sm hover:bg-blue-500 transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-2">
                     {isSubmitting ? t.submitting : t.submitBtn} {!isSubmitting && <ArrowRight size={16} />}
@@ -291,22 +297,22 @@ export default function FinalLandingPage() {
             <a href="#ozellikler" className="hover:text-white transition-colors">{t.nav1}</a>
             <a href="#arayuz" className="hover:text-white transition-colors">{t.nav2}</a>
             <div className="relative">
-                <button onClick={() => setIsLangOpen(!isLangOpen)} className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
-                    <Globe size={16} className="text-blue-400" />
-                    <span className="text-xs font-bold">{lang}</span>
-                </button>
-                <AnimatePresence>
-                    {isLangOpen && (
-                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="absolute top-full mt-2 right-0 bg-[#161B2C] border border-white/10 rounded-xl overflow-hidden shadow-2xl w-32 z-50">
-                            {(Object.keys(translations) as Language[]).map((l) => (
-                                <button key={l} onClick={() => { setLang(l); setIsLangOpen(false); }} className={`w-full text-left px-4 py-2.5 text-xs font-bold hover:bg-blue-600 hover:text-white flex justify-between items-center ${lang === l ? 'text-blue-400' : 'text-slate-400'}`}>
-                                    {l === "TR" ? "Türkçe" : l === "EN" ? "English" : "Deutsch"}
-                                    {lang === l && <Check size={12} />}
-                                </button>
-                            ))}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+              <button onClick={() => setIsLangOpen(!isLangOpen)} className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                <Globe size={16} className="text-blue-400" />
+                <span className="text-xs font-bold">{lang}</span>
+              </button>
+              <AnimatePresence>
+                {isLangOpen && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="absolute top-full mt-2 right-0 bg-[#161B2C] border border-white/10 rounded-xl overflow-hidden shadow-2xl w-32 z-50">
+                    {(Object.keys(translations) as Language[]).map((l) => (
+                      <button key={l} onClick={() => { setLang(l); setIsLangOpen(false); }} className={`w-full text-left px-4 py-2.5 text-xs font-bold hover:bg-blue-600 hover:text-white flex justify-between items-center ${lang === l ? 'text-blue-400' : 'text-slate-400'}`}>
+                        {l === "TR" ? "Türkçe" : l === "EN" ? "English" : "Deutsch"}
+                        {lang === l && <Check size={12} />}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             <button onClick={openModal} className="bg-blue-600 text-white py-2.5 px-6 rounded-full text-xs font-bold hover:bg-blue-700 shadow-lg shadow-blue-500/20 uppercase transition-all">
               {t.demoBtn}
@@ -326,12 +332,12 @@ export default function FinalLandingPage() {
           </h1>
           <p className="text-xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed">{t.heroDesc}</p>
           <button onClick={openModal} className="bg-blue-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-blue-500 shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 mx-auto transition-all hover:scale-105 hover:shadow-blue-500/40 border border-blue-400/20">
-            {t.heroCTA1} <ArrowRight size={20}/>
+            {t.heroCTA1} <ArrowRight size={20} />
           </button>
         </motion.div>
       </section>
 
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
@@ -339,10 +345,10 @@ export default function FinalLandingPage() {
         className="px-6 mb-32"
       >
         <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center border-t border-white/5 pt-12">
-             <Stat value={1.5} suffix="s" label={t.stat1} />
-             <Stat value={98.4} suffix="%" label={t.stat2} />
-             <Stat isText value="OFFLINE" label={t.stat3} />
-             <Stat isText value="EXCEL" label={t.stat4} />
+          <Stat value={1.5} suffix="s" label={t.stat1} />
+          <Stat value={98.4} suffix="%" label={t.stat2} />
+          <Stat isText value="OFFLINE" label={t.stat3} />
+          <Stat isText value="EXCEL" label={t.stat4} />
         </div>
       </motion.section>
 
@@ -354,9 +360,9 @@ export default function FinalLandingPage() {
             <p className="text-slate-400 max-w-2xl mx-auto">{t.uiDesc}</p>
           </div>
           <div className="max-w-[1200px] mx-auto">
-            <motion.div 
-               initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
-               className="rounded-[32px] overflow-hidden bg-white/[0.02] border border-white/5 p-3 md:p-6 transition-all duration-500 hover:border-blue-500/40 hover:glow-lg shadow-2xl relative group"
+            <motion.div
+              initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
+              className="rounded-[32px] overflow-hidden bg-white/[0.02] border border-white/5 p-3 md:p-6 transition-all duration-500 hover:border-blue-500/40 hover:glow-lg shadow-2xl relative group"
             >
               <ImageCarousel images={[
                 { src: "/arayuz1.png", alt: "CutOpt PRO Ana Ekran" },
@@ -365,7 +371,7 @@ export default function FinalLandingPage() {
                 { src: "/arayuz4.png", alt: "Fire Raporlama" },
                 { src: "/arayuz5.png", alt: "Stok Takibi" }
               ]} />
-              
+
               <div className="mt-8 text-center px-4 pb-4">
                 <h3 className="font-black text-2xl md:text-3xl uppercase italic mb-3 tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-orange-400 drop-shadow-lg">Üstün Yazılım Mimarisi</h3>
                 <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">Tüm üretim ihtiyaçlarınızı tek ekrandan, karmaşaya yer bırakmadan yönetin. Yüksek detaylı stok takibi, fire oranları ve görsel kesim haritaları parmaklarınızın ucunda.</p>
@@ -376,12 +382,12 @@ export default function FinalLandingPage() {
       </section>
 
       <section id="ozellikler" className="py-24 px-6 max-w-7xl mx-auto grid md:grid-cols-3 gap-8 overflow-hidden">
-          <FeatureItem icon={<Zap/>} title={t.featTitle1} desc={t.featDesc1} delay={0.1} />
-          <FeatureItem icon={<BarChart/>} title={t.featTitle2} desc={t.featDesc2} delay={0.3} />
-          <FeatureItem icon={<Database className="text-blue-400"/>} title={t.featTitle3} desc={t.featDesc3} delay={0.5} />
+        <FeatureItem icon={<Zap />} title={t.featTitle1} desc={t.featDesc1} delay={0.1} />
+        <FeatureItem icon={<BarChart />} title={t.featTitle2} desc={t.featDesc2} delay={0.3} />
+        <FeatureItem icon={<Database className="text-blue-400" />} title={t.featTitle3} desc={t.featDesc3} delay={0.5} />
       </section>
 
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, margin: "-50px" }}
@@ -389,9 +395,9 @@ export default function FinalLandingPage() {
         className="py-32 px-6 text-center"
       >
         <div className="max-w-5xl mx-auto bg-gradient-to-br from-blue-600 via-indigo-600 to-indigo-900 rounded-[40px] p-16 md:p-24 shadow-[0_0_80px_rgba(79,70,229,0.2)] relative overflow-hidden border border-white/10">
-            <div className="absolute top-0 right-0 p-10 opacity-10"><Settings size={200} className="animate-spin-slow text-white" /></div>
-            <h2 className="text-4xl md:text-6xl font-black text-white mb-10 relative z-10 italic uppercase tracking-tight filter drop-shadow-md">{t.ctaTitle}</h2>
-            <button onClick={openModal} className="bg-white text-blue-700 px-12 py-5 rounded-full font-bold text-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all relative z-10 hover:scale-105 hover:bg-slate-50">{t.ctaBtn}</button>
+          <div className="absolute top-0 right-0 p-10 opacity-10"><Settings size={200} className="animate-spin-slow text-white" /></div>
+          <h2 className="text-4xl md:text-6xl font-black text-white mb-10 relative z-10 italic uppercase tracking-tight filter drop-shadow-md">{t.ctaTitle}</h2>
+          <button onClick={openModal} className="bg-white text-blue-700 px-12 py-5 rounded-full font-bold text-xl hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all relative z-10 hover:scale-105 hover:bg-slate-50">{t.ctaBtn}</button>
         </div>
       </motion.section>
 
@@ -403,29 +409,29 @@ export default function FinalLandingPage() {
 }
 
 function FeatureItem({ icon, title, desc, delay = 0 }: { icon: React.ReactElement, title: string, desc: string, delay?: number }) {
-    return (
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, delay }}
-          className="p-10 rounded-[32px] bg-white/[0.02] backdrop-blur-xl border border-white/5 hover:border-blue-500/40 transition-all duration-500 group relative overflow-hidden hover:glow-md"
-        >
-            <div className="text-blue-500 mb-6 group-hover:scale-110 group-hover:text-blue-400 transition-all duration-500">{React.cloneElement(icon as React.ReactElement<any>, { size: 40 })}</div>
-            <h3 className="text-2xl font-bold text-white mb-4 tracking-tight uppercase italic">{title}</h3>
-            <p className="text-slate-400 font-medium leading-relaxed">{desc}</p>
-            <div className="absolute -inset-x-10 -inset-y-10 bg-gradient-to-r from-blue-600/10 to-orange-600/10 opacity-0 group-hover:opacity-100 blur-3xl transition-opacity duration-700 pointer-events-none" />
-        </motion.div>
-    );
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, delay }}
+      className="p-10 rounded-[32px] bg-white/[0.02] backdrop-blur-xl border border-white/5 hover:border-blue-500/40 transition-all duration-500 group relative overflow-hidden hover:glow-md"
+    >
+      <div className="text-blue-500 mb-6 group-hover:scale-110 group-hover:text-blue-400 transition-all duration-500">{React.cloneElement(icon as React.ReactElement<any>, { size: 40 })}</div>
+      <h3 className="text-2xl font-bold text-white mb-4 tracking-tight uppercase italic">{title}</h3>
+      <p className="text-slate-400 font-medium leading-relaxed">{desc}</p>
+      <div className="absolute -inset-x-10 -inset-y-10 bg-gradient-to-r from-blue-600/10 to-orange-600/10 opacity-0 group-hover:opacity-100 blur-3xl transition-opacity duration-700 pointer-events-none" />
+    </motion.div>
+  );
 }
 
 function Stat({ value, label, suffix = "", isText = false }: { value: any, label: string, suffix?: string, isText?: boolean }) {
-    return (
-        <div>
-            <div className="text-4xl font-black text-white mb-1 tracking-tighter italic">{isText ? value : <AnimatedNumber value={value} suffix={suffix} />}</div>
-            <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{label}</div>
-        </div>
-    );
+  return (
+    <div>
+      <div className="text-4xl font-black text-white mb-1 tracking-tighter italic">{isText ? value : <AnimatedNumber value={value} suffix={suffix} />}</div>
+      <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{label}</div>
+    </div>
+  );
 }
 
 function ImageCarousel({ images }: { images: { src: string, alt: string }[] }) {
@@ -452,29 +458,29 @@ function ImageCarousel({ images }: { images: { src: string, alt: string }[] }) {
           transition={{ duration: 0.6, ease: "easeInOut" }}
           className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
           onError={(e) => {
-              // Fallback to random pattern or placeholder if image not uploaded yet
-              (e.target as HTMLImageElement).src = `https://images.unsplash.com/photo-1551288049-bbdaef866d75?q=80&w=1200&sig=${currentIndex}`;
+            // Fallback to random pattern or placeholder if image not uploaded yet
+            (e.target as HTMLImageElement).src = `https://images.unsplash.com/photo-1551288049-bbdaef866d75?q=80&w=1200&sig=${currentIndex}`;
           }}
         />
       </AnimatePresence>
       <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] to-transparent opacity-40 pointer-events-none" />
-      
+
       {/* Navigation Buttons */}
       <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-600 shadow-xl z-20">
-         <ChevronLeft size={24} />
+        <ChevronLeft size={24} />
       </button>
       <button onClick={nextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-600 shadow-xl z-20">
-         <ChevronRight size={24} />
+        <ChevronRight size={24} />
       </button>
 
       {/* Dots Indicator */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
         {images.map((_, i) => (
-          <button 
-             key={i} 
-             onClick={() => setCurrentIndex(i)} 
-             className={`h-2 rounded-full transition-all duration-300 ${i === currentIndex ? "bg-blue-500 w-8 shadow-[0_0_10px_rgba(59,130,246,0.8)]" : "bg-white/40 w-2 hover:bg-white"}`} 
-             aria-label={`Go to slide ${i + 1}`}
+          <button
+            key={i}
+            onClick={() => setCurrentIndex(i)}
+            className={`h-2 rounded-full transition-all duration-300 ${i === currentIndex ? "bg-blue-500 w-8 shadow-[0_0_10px_rgba(59,130,246,0.8)]" : "bg-white/40 w-2 hover:bg-white"}`}
+            aria-label={`Go to slide ${i + 1}`}
           />
         ))}
       </div>

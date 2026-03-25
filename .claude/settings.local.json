@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -X POST \"http://localhost:5678/webhook/demo-request\" -H \"Content-Type: application/json\" -d '{\"\"name\"\":\"\"Test5\"\",\"\"email\"\":\"\"test@test.com\"\",\"\"company\"\":\"\"Test\"\",\"\"phone\"\":\"\"\"\",\"\"date\"\":\"\"2026-03-24T08:00:00.000Z\"\"}')"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\sumbul"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
