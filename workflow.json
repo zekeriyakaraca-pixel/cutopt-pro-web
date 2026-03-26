@@ -1,0 +1,428 @@
+{
+    "updatedAt":  "2026-03-26T12:32:39.204Z",
+    "createdAt":  "2026-03-26T10:17:59.499Z",
+    "id":  "ji21k9Z5IWGX10Wj",
+    "name":  "CutOpt PRO - Demo Talep Bildirimi",
+    "description":  null,
+    "active":  true,
+    "isArchived":  false,
+    "nodes":  [
+                  {
+                      "parameters":  {
+                                         "httpMethod":  "POST",
+                                         "path":  "demo-request",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "093b34ee-5a42-4f13-8fea-a4f197f9d092",
+                      "name":  "Demo Talebi Webhook",
+                      "type":  "n8n-nodes-base.webhook",
+                      "typeVersion":  2,
+                      "position":  [
+                                       160,
+                                       16
+                                   ],
+                      "webhookId":  "cutopt-demo-request"
+                  },
+                  {
+                      "parameters":  {
+                                         "sendTo":  "info@cutopro.com",
+                                         "subject":  "={{ \u0027Yeni Demo Talebi: \u0027 + $json.body.company }}",
+                                         "message":  "={{ \u0027\u003ctable width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#f4f4f4;font-family:Arial,Helvetica,sans-serif;\"\u003e\u003ctr\u003e\u003ctd align=\"center\" style=\"padding:20px 0;\"\u003e\u003ctable width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#ffffff;border-radius:8px;overflow:hidden;\"\u003e\u003ctr\u003e\u003ctd style=\"padding:32px 40px 28px 40px;\"\u003e\u003ch2 style=\"color:#1e40af;font-size:22px;margin:0 0 6px 0;\"\u003eYeni Demo Talebi\u003c/h2\u003e\u003cp style=\"color:#555555;font-size:14px;margin:0 0 24px 0;\"\u003eCutOpt PRO web sitesinden yeni bir demo talebi geldi.\u003c/p\u003e\u003ctable width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-collapse:collapse;\"\u003e\u003ctr style=\"background-color:#eff6ff;\"\u003e\u003ctd style=\"padding:11px 16px;font-weight:bold;color:#1e40af;font-size:14px;width:140px;\"\u003eAd Soyad\u003c/td\u003e\u003ctd style=\"padding:11px 16px;color:#333333;font-size:14px;\"\u003e\u0027 + $(\u0027Demo Talebi Webhook\u0027).item.json.body.name + \u0027\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style=\"padding:11px 16px;font-weight:bold;color:#1e40af;font-size:14px;\"\u003eE-posta\u003c/td\u003e\u003ctd style=\"padding:11px 16px;font-size:14px;\"\u003e\u003ca href=\"mailto:\u0027 + $(\u0027Demo Talebi Webhook\u0027).item.json.body.email + \u0027\" style=\"color:#1e40af;text-decoration:none;\"\u003e\u0027 + $(\u0027Demo Talebi Webhook\u0027).item.json.body.email + \u0027\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr style=\"background-color:#eff6ff;\"\u003e\u003ctd style=\"padding:11px 16px;font-weight:bold;color:#1e40af;font-size:14px;\"\u003eSirket\u003c/td\u003e\u003ctd style=\"padding:11px 16px;color:#333333;font-size:14px;\"\u003e\u0027 + $(\u0027Demo Talebi Webhook\u0027).item.json.body.company + \u0027\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style=\"padding:11px 16px;font-weight:bold;color:#1e40af;font-size:14px;\"\u003eTelefon\u003c/td\u003e\u003ctd style=\"padding:11px 16px;color:#333333;font-size:14px;\"\u003e\u0027 + ($(\u0027Demo Talebi Webhook\u0027).item.json.body.phone || \u0027Belirtilmedi\u0027) + \u0027\u003c/td\u003e\u003c/tr\u003e\u003ctr style=\"background-color:#eff6ff;\"\u003e\u003ctd style=\"padding:11px 16px;font-weight:bold;color:#1e40af;font-size:14px;\"\u003eTarih\u003c/td\u003e\u003ctd style=\"padding:11px 16px;color:#333333;font-size:14px;\"\u003e\u0027 + ($(\u0027Demo Talebi Webhook\u0027).item.json.body.date ? $(\u0027Demo Talebi Webhook\u0027).item.json.body.date.substring(0,10) : \u0027\u0027) + \u0027\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003cdiv style=\"text-align:center;margin:28px 0 8px 0;\"\u003e\u003ca href=\"https://docs.google.com/spreadsheets/d/19xsl5f1JZazfQUN_IvSr7RElfFKwqcg5pSVtNtA7zuE/edit?usp=sharing\" style=\"background-color:#1e40af;color:#ffffff;text-decoration:none;padding:13px 32px;border-radius:6px;font-weight:bold;font-size:15px;display:inline-block;\"\u003eGoogle Tablolarda Gor\u003c/a\u003e\u003c/div\u003e\u003cp style=\"text-align:center;color:#9ca3af;font-size:12px;margin:16px 0 0 0;\"\u003eCutOpt PRO - Otomatik Bildirim Sistemi\u003c/p\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u0027 }}",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "d34db4e0-534b-4ff6-bb94-229c2165456a",
+                      "name":  "Email Bildirimi Gonder",
+                      "type":  "n8n-nodes-base.gmail",
+                      "typeVersion":  2.2,
+                      "position":  [
+                                       400,
+                                       -208
+                                   ],
+                      "webhookId":  "e228bbeb-999a-438d-ba22-d81b8905ac9a",
+                      "credentials":  {
+                                          "gmailOAuth2":  {
+                                                              "id":  "LcdF1dBEgWuCMoqj",
+                                                              "name":  "Gmail account"
+                                                          }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+                                         "sendTo":  "={{ $json.body.email }}",
+                                         "subject":  "CutOpt PRO - Demo Sürümünüz Hazır",
+                                         "message":  "={{ \u0027\u003ctable width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#f4f4f4;font-family:Arial,Helvetica,sans-serif;\"\u003e\u003ctr\u003e\u003ctd align=\"center\" style=\"padding:20px 0;\"\u003e\u003ctable width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#ffffff;border-radius:8px;overflow:hidden;\"\u003e\u003ctr\u003e\u003ctd style=\"padding:40px 40px 30px 40px;\"\u003e\u003cp style=\"color:#333333;font-size:15px;line-height:1.6;margin:0 0 16px 0;\"\u003eSayın \u0027 + $json.body.name + \u0027,\u003c/p\u003e\u003cp style=\"color:#333333;font-size:15px;line-height:1.6;margin:0 0 16px 0;\"\u003eDemo talebinizi aldık, teşekkür ederiz.\u003c/p\u003e\u003cp style=\"color:#333333;font-size:15px;line-height:1.6;margin:0 0 24px 0;\"\u003eCutOpt PRO\u0026#39;nun demo sürümünü aşağıdaki bağlantıdan indirebilirsiniz. Demo sürümünü inceledikten sonra görüş ve geri bildirimlerinizi bizimle paylaşmanızı bekliyoruz.\u003c/p\u003e\u003cdiv style=\"text-align:center;margin:0 0 24px 0;\"\u003e\u003ca href=\"https://drive.google.com/drive/folders/1822NX1havvsBwi0WhpBb1Oupuv6p_m6-?usp=sharing\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:6px;font-weight:bold;font-size:15px;display:inline-block;\"\u003eDemo Sürümünü İndir\u003c/a\u003e\u003c/div\u003e\u003cp style=\"color:#333333;font-size:15px;line-height:1.6;margin:0 0 16px 0;\"\u003eProgram hakkında daha fazla bilgi edinmek ve satın alma işlemleri için aşağıdaki bağlantıdan internet sitemizi ziyaret edebilirsiniz.\u003c/p\u003e\u003cdiv style=\"text-align:center;margin:0 0 30px 0;\"\u003e\u003ca href=\"https://cutopro.com\" style=\"color:#2563eb;text-decoration:none;padding:10px 24px;border-radius:6px;border:1px solid #2563eb;font-size:14px;display:inline-block;\"\u003ecutopro.com\u003c/a\u003e\u003c/div\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style=\"background-color:#f8f9fa;padding:24px 40px;border-top:1px solid #e5e7eb;\"\u003e\u003cp style=\"margin:0 0 2px 0;font-size:18px;font-weight:bold;\"\u003e\u003cspan style=\"color:#1e3a8a;\"\u003eCutOpt \u003c/span\u003e\u003cspan style=\"color:#2563eb;\"\u003ePRO\u003c/span\u003e\u003c/p\u003e\u003cp style=\"margin:0 0 16px 0;font-size:10px;color:#9ca3af;letter-spacing:1.5px;text-transform:uppercase;\"\u003eOPTİMİZASYON ÇÖZÜMLERİ\u003c/p\u003e\u003cp style=\"margin:0 0 4px 0;font-size:13px;color:#6b7280;\"\u003e✉ info@cutopro.com\u003c/p\u003e\u003cp style=\"margin:0 0 16px 0;font-size:13px;\"\u003e\u003ca href=\"https://cutopro.com\" style=\"color:#2563eb;text-decoration:none;\"\u003ecutopro.com\u003c/a\u003e\u003c/p\u003e\u003ca href=\"https://cutopro.com\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 20px;border-radius:6px;font-size:13px;display:inline-block;\"\u003eKesim optimizasyonunda akıllı çözüm\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u0027 }}",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "6d2b6b20-92b2-46a6-b81a-ba4cf6bff565",
+                      "name":  "Otomatik Yanit",
+                      "type":  "n8n-nodes-base.gmail",
+                      "typeVersion":  2.2,
+                      "position":  [
+                                       400,
+                                       16
+                                   ],
+                      "webhookId":  "46acfb32-06f4-4cd8-976d-a81d90cb9ca2",
+                      "credentials":  {
+                                          "gmailOAuth2":  {
+                                                              "id":  "LcdF1dBEgWuCMoqj",
+                                                              "name":  "Gmail account"
+                                                          }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+                                         "method":  "POST",
+                                         "url":  "https://script.google.com/macros/s/AKfycbzdu2aq4EyxrzLIJwxoLacZbUZAIzi7QJbd4x9dervm2hpCJ5CUZZiTPwVrZ81lrrqEIA/exec",
+                                         "sendBody":  true,
+                                         "specifyBody":  "json",
+                                         "jsonBody":  "={{ {name: $json.body.name, email: $json.body.email, company: $json.body.company, phone: $json.body.phone || \u0027Belirtilmedi\u0027, date: $json.body.date} }}",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "025b5a00-64a9-4b7f-85eb-5e6a90f32be8",
+                      "name":  "Google Sheets Kaydet",
+                      "type":  "n8n-nodes-base.httpRequest",
+                      "typeVersion":  4.2,
+                      "position":  [
+                                       400,
+                                       240
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "conditions":  {
+                                                            "boolean":  [
+                                                                            {
+                                                                                "value1":  "={{ $json.count % 10 === 0 }}",
+                                                                                "value2":  true
+                                                                            }
+                                                                        ]
+                                                        }
+                                     },
+                      "id":  "391c5395-69c1-4cfd-a0e7-c82e1d7f5307",
+                      "name":  "Milestone Kontrolu",
+                      "type":  "n8n-nodes-base.if",
+                      "typeVersion":  1,
+                      "position":  [
+                                       640,
+                                       240
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "sendTo":  "zekeriya.karaca@outlook.com",
+                                         "subject":  "={{ \u0027Tebrikler! \u0027 + $json.count + \u0027 Demo Talebi Alindi\u0027 }}",
+                                         "message":  "={{ \u0027\u003cdiv style=\"font-family:Arial;max-width:600px;margin:0 auto;background:#f9f9f9;padding:24px;\"\u003e\u003ch2 style=\"color:#15803d;\"\u003eMilestone: \u0027 + $json.count + \u0027 Demo Talebi!\u003c/h2\u003e\u003cp\u003eCutOpt PRO sitesine toplam \u003cstrong\u003e\u0027 + $json.count + \u0027\u003c/strong\u003e demo talebi ulasti.\u003c/p\u003e\u003c/div\u003e\u0027 }}",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "1bf88d05-298e-4d35-b77e-7a773345ba1b",
+                      "name":  "Milestone Bildirimi",
+                      "type":  "n8n-nodes-base.gmail",
+                      "typeVersion":  2.2,
+                      "position":  [
+                                       880,
+                                       144
+                                   ],
+                      "webhookId":  "c2492d6d-22e3-481b-a983-4808c024adfd",
+                      "credentials":  {
+                                          "gmailOAuth2":  {
+                                                              "id":  "LcdF1dBEgWuCMoqj",
+                                                              "name":  "Gmail account"
+                                                          }
+                                      }
+                  }
+              ],
+    "connections":  {
+                        "Demo Talebi Webhook":  {
+                                                    "main":  [
+                                                                 [
+                                                                     {
+                                                                         "node":  "Email Bildirimi Gonder",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     },
+                                                                     {
+                                                                         "node":  "Otomatik Yanit",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     },
+                                                                     {
+                                                                         "node":  "Google Sheets Kaydet",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     }
+                                                                 ]
+                                                             ]
+                                                },
+                        "Google Sheets Kaydet":  {
+                                                     "main":  [
+                                                                  [
+                                                                      {
+                                                                          "node":  "Milestone Kontrolu",
+                                                                          "type":  "main",
+                                                                          "index":  0
+                                                                      }
+                                                                  ]
+                                                              ]
+                                                 },
+                        "Milestone Kontrolu":  {
+                                                   "main":  [
+                                                                [
+                                                                    {
+                                                                        "node":  "Milestone Bildirimi",
+                                                                        "type":  "main",
+                                                                        "index":  0
+                                                                    }
+                                                                ]
+                                                            ]
+                                               }
+                    },
+    "settings":  {
+                     "executionOrder":  "v1",
+                     "binaryMode":  "separate",
+                     "callerPolicy":  "workflowsFromSameOwner",
+                     "availableInMCP":  false
+                 },
+    "staticData":  null,
+    "meta":  {
+                 "templateCredsSetupCompleted":  true
+             },
+    "pinData":  {
+
+                },
+    "versionId":  "54d014eb-3dc5-45ab-af52-1a2d1a8d3e7b",
+    "activeVersionId":  "54d014eb-3dc5-45ab-af52-1a2d1a8d3e7b",
+    "versionCounter":  18,
+    "triggerCount":  1,
+    "shared":  [
+                   {
+                       "updatedAt":  "2026-03-26T10:17:59.499Z",
+                       "createdAt":  "2026-03-26T10:17:59.499Z",
+                       "role":  "workflow:owner",
+                       "workflowId":  "ji21k9Z5IWGX10Wj",
+                       "projectId":  "DlM53ucMVtc1kjUX",
+                       "project":  {
+                                       "updatedAt":  "2026-03-26T10:08:19.353Z",
+                                       "createdAt":  "2026-03-26T10:05:50.241Z",
+                                       "id":  "DlM53ucMVtc1kjUX",
+                                       "name":  "zekeriya karaca \u003cinfo@cutopro.com\u003e",
+                                       "type":  "personal",
+                                       "icon":  null,
+                                       "description":  null,
+                                       "creatorId":  "795ca8a0-0aa5-452a-888a-d17c731eb72b"
+                                   }
+                   }
+               ],
+    "tags":  [
+
+             ],
+    "activeVersion":  {
+                          "updatedAt":  "2026-03-26T12:32:39.216Z",
+                          "createdAt":  "2026-03-26T12:32:39.216Z",
+                          "versionId":  "54d014eb-3dc5-45ab-af52-1a2d1a8d3e7b",
+                          "workflowId":  "ji21k9Z5IWGX10Wj",
+                          "nodes":  [
+                                        {
+                                            "parameters":  {
+                                                               "httpMethod":  "POST",
+                                                               "path":  "demo-request",
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "id":  "093b34ee-5a42-4f13-8fea-a4f197f9d092",
+                                            "name":  "Demo Talebi Webhook",
+                                            "type":  "n8n-nodes-base.webhook",
+                                            "typeVersion":  2,
+                                            "position":  [
+                                                             160,
+                                                             16
+                                                         ],
+                                            "webhookId":  "cutopt-demo-request"
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "sendTo":  "info@cutopro.com",
+                                                               "subject":  "={{ \u0027Yeni Demo Talebi: \u0027 + $json.body.company }}",
+                                                               "message":  "={{ \u0027\u003ctable width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#f4f4f4;font-family:Arial,Helvetica,sans-serif;\"\u003e\u003ctr\u003e\u003ctd align=\"center\" style=\"padding:20px 0;\"\u003e\u003ctable width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#ffffff;border-radius:8px;overflow:hidden;\"\u003e\u003ctr\u003e\u003ctd style=\"padding:32px 40px 28px 40px;\"\u003e\u003ch2 style=\"color:#1e40af;font-size:22px;margin:0 0 6px 0;\"\u003eYeni Demo Talebi\u003c/h2\u003e\u003cp style=\"color:#555555;font-size:14px;margin:0 0 24px 0;\"\u003eCutOpt PRO web sitesinden yeni bir demo talebi geldi.\u003c/p\u003e\u003ctable width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-collapse:collapse;\"\u003e\u003ctr style=\"background-color:#eff6ff;\"\u003e\u003ctd style=\"padding:11px 16px;font-weight:bold;color:#1e40af;font-size:14px;width:140px;\"\u003eAd Soyad\u003c/td\u003e\u003ctd style=\"padding:11px 16px;color:#333333;font-size:14px;\"\u003e\u0027 + $(\u0027Demo Talebi Webhook\u0027).item.json.body.name + \u0027\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style=\"padding:11px 16px;font-weight:bold;color:#1e40af;font-size:14px;\"\u003eE-posta\u003c/td\u003e\u003ctd style=\"padding:11px 16px;font-size:14px;\"\u003e\u003ca href=\"mailto:\u0027 + $(\u0027Demo Talebi Webhook\u0027).item.json.body.email + \u0027\" style=\"color:#1e40af;text-decoration:none;\"\u003e\u0027 + $(\u0027Demo Talebi Webhook\u0027).item.json.body.email + \u0027\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr style=\"background-color:#eff6ff;\"\u003e\u003ctd style=\"padding:11px 16px;font-weight:bold;color:#1e40af;font-size:14px;\"\u003eSirket\u003c/td\u003e\u003ctd style=\"padding:11px 16px;color:#333333;font-size:14px;\"\u003e\u0027 + $(\u0027Demo Talebi Webhook\u0027).item.json.body.company + \u0027\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style=\"padding:11px 16px;font-weight:bold;color:#1e40af;font-size:14px;\"\u003eTelefon\u003c/td\u003e\u003ctd style=\"padding:11px 16px;color:#333333;font-size:14px;\"\u003e\u0027 + ($(\u0027Demo Talebi Webhook\u0027).item.json.body.phone || \u0027Belirtilmedi\u0027) + \u0027\u003c/td\u003e\u003c/tr\u003e\u003ctr style=\"background-color:#eff6ff;\"\u003e\u003ctd style=\"padding:11px 16px;font-weight:bold;color:#1e40af;font-size:14px;\"\u003eTarih\u003c/td\u003e\u003ctd style=\"padding:11px 16px;color:#333333;font-size:14px;\"\u003e\u0027 + ($(\u0027Demo Talebi Webhook\u0027).item.json.body.date ? $(\u0027Demo Talebi Webhook\u0027).item.json.body.date.substring(0,10) : \u0027\u0027) + \u0027\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003cdiv style=\"text-align:center;margin:28px 0 8px 0;\"\u003e\u003ca href=\"https://docs.google.com/spreadsheets/d/19xsl5f1JZazfQUN_IvSr7RElfFKwqcg5pSVtNtA7zuE/edit?usp=sharing\" style=\"background-color:#1e40af;color:#ffffff;text-decoration:none;padding:13px 32px;border-radius:6px;font-weight:bold;font-size:15px;display:inline-block;\"\u003eGoogle Tablolarda Gor\u003c/a\u003e\u003c/div\u003e\u003cp style=\"text-align:center;color:#9ca3af;font-size:12px;margin:16px 0 0 0;\"\u003eCutOpt PRO - Otomatik Bildirim Sistemi\u003c/p\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u0027 }}",
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "id":  "d34db4e0-534b-4ff6-bb94-229c2165456a",
+                                            "name":  "Email Bildirimi Gonder",
+                                            "type":  "n8n-nodes-base.gmail",
+                                            "typeVersion":  2.2,
+                                            "position":  [
+                                                             400,
+                                                             -208
+                                                         ],
+                                            "webhookId":  "e228bbeb-999a-438d-ba22-d81b8905ac9a",
+                                            "credentials":  {
+                                                                "gmailOAuth2":  {
+                                                                                    "id":  "LcdF1dBEgWuCMoqj",
+                                                                                    "name":  "Gmail account"
+                                                                                }
+                                                            }
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "sendTo":  "={{ $json.body.email }}",
+                                                               "subject":  "CutOpt PRO - Demo Sürümünüz Hazır",
+                                                               "message":  "={{ \u0027\u003ctable width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#f4f4f4;font-family:Arial,Helvetica,sans-serif;\"\u003e\u003ctr\u003e\u003ctd align=\"center\" style=\"padding:20px 0;\"\u003e\u003ctable width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"background-color:#ffffff;border-radius:8px;overflow:hidden;\"\u003e\u003ctr\u003e\u003ctd style=\"padding:40px 40px 30px 40px;\"\u003e\u003cp style=\"color:#333333;font-size:15px;line-height:1.6;margin:0 0 16px 0;\"\u003eSayın \u0027 + $json.body.name + \u0027,\u003c/p\u003e\u003cp style=\"color:#333333;font-size:15px;line-height:1.6;margin:0 0 16px 0;\"\u003eDemo talebinizi aldık, teşekkür ederiz.\u003c/p\u003e\u003cp style=\"color:#333333;font-size:15px;line-height:1.6;margin:0 0 24px 0;\"\u003eCutOpt PRO\u0026#39;nun demo sürümünü aşağıdaki bağlantıdan indirebilirsiniz. Demo sürümünü inceledikten sonra görüş ve geri bildirimlerinizi bizimle paylaşmanızı bekliyoruz.\u003c/p\u003e\u003cdiv style=\"text-align:center;margin:0 0 24px 0;\"\u003e\u003ca href=\"https://drive.google.com/drive/folders/1822NX1havvsBwi0WhpBb1Oupuv6p_m6-?usp=sharing\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:6px;font-weight:bold;font-size:15px;display:inline-block;\"\u003eDemo Sürümünü İndir\u003c/a\u003e\u003c/div\u003e\u003cp style=\"color:#333333;font-size:15px;line-height:1.6;margin:0 0 16px 0;\"\u003eProgram hakkında daha fazla bilgi edinmek ve satın alma işlemleri için aşağıdaki bağlantıdan internet sitemizi ziyaret edebilirsiniz.\u003c/p\u003e\u003cdiv style=\"text-align:center;margin:0 0 30px 0;\"\u003e\u003ca href=\"https://cutopro.com\" style=\"color:#2563eb;text-decoration:none;padding:10px 24px;border-radius:6px;border:1px solid #2563eb;font-size:14px;display:inline-block;\"\u003ecutopro.com\u003c/a\u003e\u003c/div\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style=\"background-color:#f8f9fa;padding:24px 40px;border-top:1px solid #e5e7eb;\"\u003e\u003cp style=\"margin:0 0 2px 0;font-size:18px;font-weight:bold;\"\u003e\u003cspan style=\"color:#1e3a8a;\"\u003eCutOpt \u003c/span\u003e\u003cspan style=\"color:#2563eb;\"\u003ePRO\u003c/span\u003e\u003c/p\u003e\u003cp style=\"margin:0 0 16px 0;font-size:10px;color:#9ca3af;letter-spacing:1.5px;text-transform:uppercase;\"\u003eOPTİMİZASYON ÇÖZÜMLERİ\u003c/p\u003e\u003cp style=\"margin:0 0 4px 0;font-size:13px;color:#6b7280;\"\u003e✉ info@cutopro.com\u003c/p\u003e\u003cp style=\"margin:0 0 16px 0;font-size:13px;\"\u003e\u003ca href=\"https://cutopro.com\" style=\"color:#2563eb;text-decoration:none;\"\u003ecutopro.com\u003c/a\u003e\u003c/p\u003e\u003ca href=\"https://cutopro.com\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 20px;border-radius:6px;font-size:13px;display:inline-block;\"\u003eKesim optimizasyonunda akıllı çözüm\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u0027 }}",
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "id":  "6d2b6b20-92b2-46a6-b81a-ba4cf6bff565",
+                                            "name":  "Otomatik Yanit",
+                                            "type":  "n8n-nodes-base.gmail",
+                                            "typeVersion":  2.2,
+                                            "position":  [
+                                                             400,
+                                                             16
+                                                         ],
+                                            "webhookId":  "46acfb32-06f4-4cd8-976d-a81d90cb9ca2",
+                                            "credentials":  {
+                                                                "gmailOAuth2":  {
+                                                                                    "id":  "LcdF1dBEgWuCMoqj",
+                                                                                    "name":  "Gmail account"
+                                                                                }
+                                                            }
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "method":  "POST",
+                                                               "url":  "https://script.google.com/macros/s/AKfycbzdu2aq4EyxrzLIJwxoLacZbUZAIzi7QJbd4x9dervm2hpCJ5CUZZiTPwVrZ81lrrqEIA/exec",
+                                                               "sendBody":  true,
+                                                               "specifyBody":  "json",
+                                                               "jsonBody":  "={{ {name: $json.body.name, email: $json.body.email, company: $json.body.company, phone: $json.body.phone || \u0027Belirtilmedi\u0027, date: $json.body.date} }}",
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "id":  "025b5a00-64a9-4b7f-85eb-5e6a90f32be8",
+                                            "name":  "Google Sheets Kaydet",
+                                            "type":  "n8n-nodes-base.httpRequest",
+                                            "typeVersion":  4.2,
+                                            "position":  [
+                                                             400,
+                                                             240
+                                                         ]
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "conditions":  {
+                                                                                  "boolean":  [
+                                                                                                  {
+                                                                                                      "value1":  "={{ $json.count % 10 === 0 }}",
+                                                                                                      "value2":  true
+                                                                                                  }
+                                                                                              ]
+                                                                              }
+                                                           },
+                                            "id":  "391c5395-69c1-4cfd-a0e7-c82e1d7f5307",
+                                            "name":  "Milestone Kontrolu",
+                                            "type":  "n8n-nodes-base.if",
+                                            "typeVersion":  1,
+                                            "position":  [
+                                                             640,
+                                                             240
+                                                         ]
+                                        },
+                                        {
+                                            "parameters":  {
+                                                               "sendTo":  "zekeriya.karaca@outlook.com",
+                                                               "subject":  "={{ \u0027Tebrikler! \u0027 + $json.count + \u0027 Demo Talebi Alindi\u0027 }}",
+                                                               "message":  "={{ \u0027\u003cdiv style=\"font-family:Arial;max-width:600px;margin:0 auto;background:#f9f9f9;padding:24px;\"\u003e\u003ch2 style=\"color:#15803d;\"\u003eMilestone: \u0027 + $json.count + \u0027 Demo Talebi!\u003c/h2\u003e\u003cp\u003eCutOpt PRO sitesine toplam \u003cstrong\u003e\u0027 + $json.count + \u0027\u003c/strong\u003e demo talebi ulasti.\u003c/p\u003e\u003c/div\u003e\u0027 }}",
+                                                               "options":  {
+
+                                                                           }
+                                                           },
+                                            "id":  "1bf88d05-298e-4d35-b77e-7a773345ba1b",
+                                            "name":  "Milestone Bildirimi",
+                                            "type":  "n8n-nodes-base.gmail",
+                                            "typeVersion":  2.2,
+                                            "position":  [
+                                                             880,
+                                                             144
+                                                         ],
+                                            "webhookId":  "c2492d6d-22e3-481b-a983-4808c024adfd",
+                                            "credentials":  {
+                                                                "gmailOAuth2":  {
+                                                                                    "id":  "LcdF1dBEgWuCMoqj",
+                                                                                    "name":  "Gmail account"
+                                                                                }
+                                                            }
+                                        }
+                                    ],
+                          "connections":  {
+                                              "Demo Talebi Webhook":  {
+                                                                          "main":  [
+                                                                                       [
+                                                                                           {
+                                                                                               "node":  "Email Bildirimi Gonder",
+                                                                                               "type":  "main",
+                                                                                               "index":  0
+                                                                                           },
+                                                                                           {
+                                                                                               "node":  "Otomatik Yanit",
+                                                                                               "type":  "main",
+                                                                                               "index":  0
+                                                                                           },
+                                                                                           {
+                                                                                               "node":  "Google Sheets Kaydet",
+                                                                                               "type":  "main",
+                                                                                               "index":  0
+                                                                                           }
+                                                                                       ]
+                                                                                   ]
+                                                                      },
+                                              "Google Sheets Kaydet":  {
+                                                                           "main":  [
+                                                                                        [
+                                                                                            {
+                                                                                                "node":  "Milestone Kontrolu",
+                                                                                                "type":  "main",
+                                                                                                "index":  0
+                                                                                            }
+                                                                                        ]
+                                                                                    ]
+                                                                       },
+                                              "Milestone Kontrolu":  {
+                                                                         "main":  [
+                                                                                      [
+                                                                                          {
+                                                                                              "node":  "Milestone Bildirimi",
+                                                                                              "type":  "main",
+                                                                                              "index":  0
+                                                                                          }
+                                                                                      ]
+                                                                                  ]
+                                                                     }
+                                          },
+                          "authors":  "zekeriya karaca",
+                          "name":  null,
+                          "description":  null,
+                          "autosaved":  false,
+                          "workflowPublishHistory":  [
+                                                         {
+                                                             "createdAt":  "2026-03-26T12:32:39.756Z",
+                                                             "id":  9,
+                                                             "workflowId":  "ji21k9Z5IWGX10Wj",
+                                                             "versionId":  "54d014eb-3dc5-45ab-af52-1a2d1a8d3e7b",
+                                                             "event":  "activated",
+                                                             "userId":  "795ca8a0-0aa5-452a-888a-d17c731eb72b"
+                                                         }
+                                                     ]
+                      }
+}
