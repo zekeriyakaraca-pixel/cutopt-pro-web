@@ -7,6 +7,8 @@ const N8N_WEBHOOK_URL =
 const TURNSTILE_SECRET_KEY =
   process.env.TURNSTILE_SECRET_KEY || "1x0000000000000000000000000000000AA";
 
+const N8N_API_KEY = process.env.N8N_API_KEY;
+
 // Basit bir HTML etiket temizleme fonksiyonu (XSS koruması için)
 const sanitizeInput = (str: string) => {
   return str.replace(/[<>]/g, ""); // < ve > karakterlerini siler
@@ -79,7 +81,10 @@ export async function POST(req: NextRequest) {
   try {
     const response = await fetch(N8N_WEBHOOK_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(N8N_API_KEY && { "Authorization": `Bearer ${N8N_API_KEY}` }),
+      },
       body: JSON.stringify({ name: safeName, email, company: safeCompany, phone: safePhone, date: new Date().toISOString() }),
     });
 
