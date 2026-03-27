@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cutopro.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_DOMAIN || "https://cutopro.com"),
   title: "CutOpt PRO - Üretim Hattınız İçin Akıllı Optimizasyon",
   description: "Alüminyum ve PVC üretiminde firesiz kesim. Saniyeler içinde binlerce kesim planını hazırlayın.",
   keywords: ["optimizasyon", "kesim planı", "alüminyum kesim", "pvc kesim", "fire azaltma", "üretim yazılımı"],
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "CutOpt PRO - Üretim Hattınız İçin Akıllı Optimizasyon",
     description: "Alüminyum ve PVC üretiminde firesiz kesim. Saniyeler içinde binlerce kesim planını hazırlayın.",
-    url: "https://cutopro.com",
+    url: process.env.NEXT_PUBLIC_DOMAIN || "https://cutopro.com",
     siteName: "CutOpt PRO",
     images: [
       {

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkRateLimit } from "@/lib/ratelimit";
 
 const N8N_WEBHOOK_URL =
   process.env.N8N_WEBHOOK_URL ||
@@ -9,35 +10,22 @@ const TURNSTILE_SECRET_KEY =
 
 const N8N_API_KEY = process.env.N8N_API_KEY;
 
-// Basit bir HTML etiket temizleme fonksiyonu (XSS koruması için)
+// HTML/JS injection karakterlerini temizleme fonksiyonu (XSS koruması için)
 const sanitizeInput = (str: string) => {
-  return str.replace(/[<>]/g, ""); // < ve > karakterlerini siler
+  return str
+    .trim()
+    .replace(/[<>"'`]/g, "")
+    .replace(/javascript:/gi, "")
+    .replace(/on\w+\s*=/gi, "");
 };
 
-// Basit bir In-Memory Hız Sınırlandırıcı (Rate Limiter)
-const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
-const RATE_LIMIT_MAX_REQUESTS = 3; // 1 dakikada en fazla 3 istek
-const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 dakika
-
 export async function POST(req: NextRequest) {
-  // IP adresini al
   const ip = req.headers.get("x-forwarded-for") || "unknown-ip";
-  const currentTime = Date.now();
 
-  // Rate limit kontrolü
-  const rateLimitInfo = rateLimitMap.get(ip) || { count: 0, lastReset: currentTime };
-
-  if (currentTime - rateLimitInfo.lastReset > RATE_LIMIT_WINDOW_MS) {
-    rateLimitInfo.count = 0;
-    rateLimitInfo.lastReset = currentTime;
-  }
-
-  if (rateLimitInfo.count >= RATE_LIMIT_MAX_REQUESTS) {
+  const allowed = await checkRateLimit(ip);
+  if (!allowed) {
     return NextResponse.json({ error: "Çok fazla istek gönderdiniz. Lütfen daha sonra tekrar deneyin." }, { status: 429 });
   }
-
-  rateLimitInfo.count += 1;
-  rateLimitMap.set(ip, rateLimitInfo);
 
   const body = await req.json();
   const { name, email, company, phone, token } = body;
@@ -89,7 +77,8 @@ export async function POST(req: NextRequest) {
     });
 
     if (!response.ok) {
-      throw new Error(`n8n webhook hatası: ${response.status}`);
+      console.error(`n8n webhook hatası: ${response.status}`);
+      throw new Error("upstream_error");
     }
 
     return NextResponse.json({ success: true });
