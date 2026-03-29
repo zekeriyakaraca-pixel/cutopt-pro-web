@@ -22,7 +22,18 @@ if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) 
 // In-memory fallback (single-instance / dev ortamı)
 const inMemoryMap = new Map<string, { count: number; lastReset: number }>();
 
+// Süresi dolmuş kayıtları temizle (memory leak önlemi)
+function cleanExpiredEntries(): void {
+  const now = Date.now();
+  for (const [key, info] of inMemoryMap.entries()) {
+    if (now - info.lastReset > RATE_LIMIT_WINDOW_MS * 2) {
+      inMemoryMap.delete(key);
+    }
+  }
+}
+
 function inMemoryCheck(ip: string): boolean {
+  if (inMemoryMap.size > 5000) cleanExpiredEntries();
   const now = Date.now();
   const info = inMemoryMap.get(ip) ?? { count: 0, lastReset: now };
   if (now - info.lastReset > RATE_LIMIT_WINDOW_MS) {

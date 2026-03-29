@@ -14,7 +14,7 @@ import ImageCarousel from "@/components/ImageCarousel";
 // --- 1. SHADER ANIMATION ---
 const ShaderAnimation = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<any>(null);
+  const sceneRef = useRef<number>(0);
 
   useEffect(() => {
     if (!containerRef.current) return;
