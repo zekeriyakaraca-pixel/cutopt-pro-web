@@ -157,7 +157,25 @@ export default function DemoModal({
                 <div className="flex justify-center my-2">
                   <Turnstile
                     siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-                    onSuccess={(token) => setTurnstileToken(token)}
+                    onSuccess={(token) => {
+                      setTurnstileToken(token);
+                      setSubmitError(""); // Temizle
+                    }}
+                    onError={() => {
+                      setSubmitStatus("error");
+                      setSubmitError("Güvenlik doğrulaması (CAPTCHA) yüklenemedi. Lütfen internetinizi kontrol edin veya sayfayı yenileyin.");
+                    }}
+                    onExpire={() => {
+                      setTurnstileToken("");
+                      setSubmitStatus("error");
+                      setSubmitError("Doğrulama süresi doldu. Lütfen tekrar deneyin.");
+                    }}
+                    options={{
+                      appearance: "always",
+                      execution: "render",
+                      retry: "auto",
+                      refreshExpired: "auto",
+                    }}
                   />
                 </div>
 
